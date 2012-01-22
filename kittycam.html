@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Friends of Felines&rsquo; Rescue Center 24/7 Kitty Cam</title>
+  <link href='http://fonts.googleapis.com/css?family=Gudea' rel='stylesheet' type='text/css'>
+<style>
+body {
+  background-color: #E3E8FB;
+  color: #1D1805;
+  text-shadow: 1px 1px 1px #F3F8FB;
+  font-family: Gudea, Arial, Sans;
+  font-size: 14px;
+}
+button {
+  font-family: Gudea, Arial, Sans;
+  font-size: 14px;
+}
+</style>
+<script>
+function format_time(t) {
+  var time = new Date(t);
+  var hh = time.getUTCHours();
+  var mm = time.getUTCMinutes();
+  if (mm < 10)
+    mm = '0' + mm;
+  if (hh <= 12)
+    return hh + ':' + mm + ' AM';
+  else
+    return (hh - 12) + ':' + mm + ' PM';
+}
+
+function update_time() {
+  var now_EDT = Date.now() - 3600 * 5 * 1000;
+  var now_EST = now_EDT    + 3600 * 1 * 1000;
+
+  var edt = document.getElementById('time-edt');
+  var est = document.getElementById('time-est');
+
+  edt.innerText = format_time(now_EDT);
+  est.innerText = format_time(now_EST);
+
+  setTimeout(update_time, 1000);
+}
+</script>
+</head>
+<body onload="update_time()">
+<div><iframe src="http://www.ustream.tv/embed/2298576?autoplay=true" width="640" height="386" scrolling="no" frameborder="0" style="border: 0px none transparent;"></iframe></div>
+<div>
+  <p>
+    Friends of Felines&rsquo; Rescue Center is a lovely place, not only for kitties but also for cat lovers. Please do not hesitate to join the chat on <a href="#" onclick="javascript:window.open('http://www.ustream.tv/ffrc')">Ustream.tv</a> and you can find all information about the center on <a href="#" onclick="javascript:window.open('http://fofrescue.org/')">official website</a>.
+  </p>
+  <p>
+    Current time at the center: <span id="time-edt">HH:MM AM</span> or <span id="time-est">HH:MM AM</span> in summer.
+  </p>
+  <p>
+    Please note that this extension is not made by the center, but a webcammer (who watches the cam).
+  </p>
+</div>
+<div>
+  <button onclick="javascript:window.open('http://www.ustream.tv/ffrc')">Go to Ustream.tv and Join Cat Lovers in Chat</button>
+  <button onclick="javascript:window.open('http://fofrescue.org/')">Go to Official Website</button>
+</div>
+</body>
+</html>

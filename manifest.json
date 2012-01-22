@@ -1,0 +1,14 @@
+{
+  "name": "Friends of Felines' Rescue Center Kitty Cam",
+  "version": "0.1",
+  "description": "Webcam of Friends of Felines' Rescue Center, a volunteer staffed non-profit, no-kill, cage free facility located in Defiance, Ohio.",
+  "icons": { "16": "icon16.png",
+             "48": "icon48.png",
+            "128": "icon128.png" },
+  "background_page": "background.html",
+  "browser_action": {
+    "default_icon": "icon16.png",
+        "default_title": "FFRC Kitty Cam",
+        "popup": "kittycam.html"
+  }
+}
