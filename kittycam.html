@@ -31,14 +31,14 @@ function format_time(t) {
 }
 
 function update_time() {
-  var now_EDT = Date.now() - 3600 * 5 * 1000;
-  var now_EST = now_EDT    + 3600 * 1 * 1000;
+  var now_EST = Date.now() - 3600 * 5 * 1000; // Eastern Standard Time
+  var now_EDT = now_EDT    + 3600 * 1 * 1000; // Eastern Daylight Time
 
-  var edt = document.getElementById('time-edt');
   var est = document.getElementById('time-est');
+  var edt = document.getElementById('time-edt');
 
-  edt.innerText = format_time(now_EDT);
   est.innerText = format_time(now_EST);
+  edt.innerText = format_time(now_EDT);
 
   setTimeout(update_time, 1000);
 }
@@ -51,7 +51,7 @@ function update_time() {
     Friends of Felines&rsquo; Rescue Center is a lovely place, not only for kitties but also for cat lovers. Please do not hesitate to join the chat on <a href="#" onclick="javascript:window.open('http://www.ustream.tv/ffrc')">Ustream.tv</a> and you can find all information about the center on <a href="#" onclick="javascript:window.open('http://fofrescue.org/')">official website</a>.
   </p>
   <p>
-    Current time at the center: <span id="time-edt">HH:MM AM</span> or <span id="time-est">HH:MM AM</span> in summer.
+    Current time at the center: <span id="time-est">HH:MM AM</span> (EST) or <span id="time-edt">HH:MM AM</span> in summer (EDT).
   </p>
   <p>
     Please note that this extension is not made by the center, but a webcammer (who watches the cam).
