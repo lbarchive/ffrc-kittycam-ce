@@ -32,7 +32,7 @@ function format_time(t) {
 
 function update_time() {
   var now_EST = Date.now() - 3600 * 5 * 1000; // Eastern Standard Time
-  var now_EDT = now_EDT    + 3600 * 1 * 1000; // Eastern Daylight Time
+  var now_EDT = now_EST    + 3600 * 1 * 1000; // Eastern Daylight Time
 
   var est = document.getElementById('time-est');
   var edt = document.getElementById('time-edt');
@@ -58,6 +58,7 @@ function update_time() {
   </p>
 </div>
 <div>
+  <button onclick="javascript:window.open('dashboard.html')">Kitty Overflow</button>
   <button onclick="javascript:window.open('http://www.ustream.tv/ffrc')">Go to Ustream.tv and Join Cat Lovers in Chat</button>
   <button onclick="javascript:window.open('http://fofrescue.org/')">Go to Official Website</button>
 </div>
