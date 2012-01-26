@@ -5,10 +5,11 @@
   "icons": { "16": "icon16.png",
              "48": "icon48.png",
             "128": "icon128.png" },
+  "permissions": [
+  ],
   "background_page": "background.html",
   "browser_action": {
     "default_icon": "icon16.png",
-        "default_title": "FFRC Kitty Cam",
-        "popup": "kittycam.html"
+    "default_title": "FFRC Kitty Cam"
   }
 }

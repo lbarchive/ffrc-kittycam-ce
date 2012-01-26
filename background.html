@@ -1,7 +1,16 @@
+<!DOCTYPE html>
 <html>
 <head>
-<script>
+<script type="text/javascript">
+function onload(){
+  // TODO set popup...
+	// Hook the Kitty Overflow page
+	chrome.browserAction.onClicked.addListener(function(tab) {
+		chrome.tabs.create({url: chrome.extension.getURL('dashboard.html')});
+		});
+	}
 </script>
 </head>
+<body onload='onload()'>
+</body>
 </html>
-<!-- vim: set sw=2 ts=2 et: -->

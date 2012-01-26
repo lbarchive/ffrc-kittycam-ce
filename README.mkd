@@ -9,6 +9,12 @@ Please go to its [Chrome Web Store page][webstore].
 
 [webstore]: TBD
 
+## Kitty Overflow
+
+A standalone page [Kitty Overflow][] is part of this extension.
+
+[Kitty Overflow]: https://github.com/livibetter/ffrc-kittycam-ce/kittyoverflow.com
+
 ## License
 
 This project is licensed under the MIT License.

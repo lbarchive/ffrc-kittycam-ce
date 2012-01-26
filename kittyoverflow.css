@@ -1,0 +1,284 @@
+body {
+  background-color: #E3E8FB;
+  color: #1D1805;
+  text-shadow: 1px 1px 1px #F3F8FB;
+  font-family: Gudea, Arial, Sans;
+  font-size: 14px;
+}
+
+div.wrapper {
+  width: 960px;
+  padding: 10px;
+  margin: 0 auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Boogaloo, Arial, Sans;
+}
+
+a {
+  color: #506B97;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #976B50;
+  text-decoration: underline;
+}
+
+a {
+  -webkit-transition: color 250ms ;
+  -moz-transition: color 250ms ;
+  -o-transition: color 250ms ;
+  transition: color 250ms ;
+  }
+
+body > .wrapper > header {
+  font-size: 1.5em;
+}
+
+body > .wrapper > header h1,
+body > .wrapper > header h2 {
+  margin: 5px;
+}
+
+body > .wrapper > header h2 img {
+  width: 48px;
+  height: 48px;
+  margin: 2px;
+  vertical-align: middle;
+}
+
+header {
+  text-align: center;
+}
+
+footer {
+  margin-top: 2em;
+  text-align: center;
+}
+
+button {
+  font-family: Gudea, Arial, Sans !important;
+  font-size: 14px !important;
+}
+
+section > header > h2 > span {
+  font-family: 'Short Stack';
+  font-weight: bold;
+  cursor: pointer;
+}
+
+article > header > h1 {
+  font-family: Telex;
+}
+
+.oneline {
+  margin: 0 auto 5px auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*********
+ * Links *
+ *********/
+
+#links {
+  text-align: center;
+  margin: 10px;
+}
+
+#links button {
+  font-family: Boogaloo !important;
+  font-size: 16px !important;
+  margin: 5px;
+}
+
+/**********
+ * Voting *
+ **********/
+
+#voting {
+  float: right;
+}
+
+#voting time {
+  margin-right: 5px;
+}
+
+#voting-help {
+  display: none;
+}
+
+/**************
+ * Ustream.tv *
+ **************/
+
+#utv-cam-chat table {
+  margin: 0 auto;
+}
+
+#utv-cam-chat table td {
+  vertical-align: top;
+  padding: 5px;
+}
+
+#utv {
+  width: 640px;
+  height: 386px;
+}
+
+#utv-chat {
+  width: 320px;
+  height: 386px;
+}
+
+/**************
+ * blog posts *
+ **************/
+
+#blog {
+  float: left;
+  width: 576px;
+  height: 384px;
+}
+
+#blog-posts article {
+  float: left;
+  width: 182px;
+  height: 141px;
+  padding: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+#blog-posts article:hover {
+  background-color: #F2CF87;
+}
+
+#blog-posts article {
+  -webkit-transition: background 250ms ;
+  -moz-transition: background 250ms ;
+  -o-transition: background 250ms ;
+  transition: background 250ms ;
+  }
+
+#blog-posts article p {
+  height: 122px;
+  margin: 0;
+}
+
+#blog-posts article .fadeout {
+  position: relative;
+  top: -3em;
+  width: 100%;
+  height: 3em;
+  background: -webkit-linear-gradient(
+    rgba(227, 232, 235, 0) 0%,
+    rgba(227, 232, 235, 0.95) 75%,
+    rgba(227, 232, 235, 1) 100%
+    );
+  background: -moz-linear-gradient(
+    rgba(227, 232, 235, 0) 0%,
+    rgba(227, 232, 235, 0.95) 75%,
+    rgba(227, 232, 235, 1) 100%
+    );
+  background: -o-linear-gradient(
+    rgba(227, 232, 235, 0) 0%,
+    rgba(227, 232, 235, 0.95) 75%,
+    rgba(227, 232, 235, 1) 100%
+    );
+  background: linear-gradient(
+    rgba(227, 232, 235, 0) 0%,
+    rgba(227, 232, 235, 0.95) 75%,
+    rgba(227, 232, 235, 1) 100%
+    );
+  z-index: 1;
+}
+
+#blog-posts article:hover .fadeout {
+  background-color: #F2CF87;
+  background: -webkit-linear-gradient(
+    rgba(242, 207, 135, 0) 0%,
+    rgba(242, 207, 135, 0.95) 75%,
+    rgba(242, 207, 135, 1) 100%
+    );
+  background: -moz-linear-gradient(
+    rgba(242, 207, 135, 0) 0%,
+    rgba(242, 207, 135, 0.95) 75%,
+    rgba(242, 207, 135, 1) 100%
+    );
+  background: linear-gradient(
+    rgba(242, 207, 135, 0) 0%,
+    rgba(242, 207, 135, 0.95) 75%,
+    rgba(242, 207, 135, 1) 100%
+    );
+}
+
+/*****************
+ * flickr photos *
+ *****************/
+
+#flickr {
+  float: right;
+  width: 375px;
+}
+
+#flickr-photos article {
+  float: left;
+  width: 75px;
+  height: 75px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/******************
+ * cammers videos *
+ ******************/
+
+#cammers-youtube footer {
+  font-size: 1.25em;
+  text-align: center;
+}
+
+#cammers-videos article {
+  float: left;
+  width: 310px;
+  padding: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: center;
+}
+
+#cammers-videos article:hover {
+  background-color: #F2CF87;
+}
+
+#cammers-videos article {
+  -webkit-transition: background 250ms ;
+  -moz-transition: background 250ms ;
+  -o-transition: background 250ms ;
+  transition: background 250ms ;
+  }
+
+/******************
+ * cammers photos *
+ ******************/
+
+#cammers-flickr footer {
+  font-size: 1.25em;
+  text-align: center;
+}
+
+#cammers-flickr-photos article {
+  float: left;
+  width: 75px;
+  height: 75px;
+  margin: 0;
+  padding: 3px 2px 2px 3px;
+  overflow: hidden;
+}
