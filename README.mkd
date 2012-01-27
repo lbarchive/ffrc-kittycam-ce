@@ -13,7 +13,7 @@ Please go to its [Chrome Web Store page][webstore].
 
 A standalone page [Kitty Overflow][] is part of this extension.
 
-[Kitty Overflow]: https://github.com/livibetter/ffrc-kittycam-ce/kittyoverflow.html
+[Kitty Overflow]: http://livibetter.github.com//ffrc-kittycam-ce/kittyoverflow.html
 
 ## License
 
