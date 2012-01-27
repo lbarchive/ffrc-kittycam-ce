@@ -374,6 +374,13 @@ function init_page() {
       }
     }
   });
+  // chat code of conduct button
+  $('<button/>').attr('id', 'btn-coc')
+                .text('Code of Conduct')
+                .button()
+                .click(open_ele_link)
+                .appendTo($('#utv-chat'))
+                .get(0).link = 'http://www.fofrescue.org/?page_id=671';
   update_time();
   refresh_blog_posts();
   refresh_flickr_photos('#flickr-photos', FFRC_FLICKR_ID);

@@ -1,0 +1,93 @@
+body {
+  background-color: #E3E8FB;
+  color: #1D1805;
+  text-shadow: 1px 1px 1px #F3F8FB;
+  font-family: Gudea, Arial, Sans;
+  font-size: 14px;
+}
+
+div.wrapper {
+  width: 640px;
+  padding: 10px;
+  margin: 0 auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Boogaloo, Arial, Sans;
+}
+
+a {
+  color: #506B97;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #976B50;
+  text-decoration: underline;
+}
+
+a {
+  -webkit-transition: color 250ms ;
+  -moz-transition: color 250ms ;
+  -o-transition: color 250ms ;
+  transition: color 250ms ;
+  }
+
+body > .wrapper > header {
+  font-size: 1.4em;
+}
+
+body > .wrapper > header h1,
+body > .wrapper > header h2 {
+  margin: 5px;
+}
+
+body > .wrapper > header h2 img {
+  width: 48px;
+  height: 48px;
+  margin: 2px;
+  vertical-align: middle;
+}
+
+header {
+  text-align: center;
+}
+
+footer {
+  margin-top: 2em;
+  text-align: center;
+}
+
+#save-message {
+  display: none;
+  margin: 1em auto;
+}
+
+#controls {
+  text-align: center;
+}
+
+button {
+  font-family: Gudea, Arial, Sans !important;
+  font-size: 14px !important;
+}
+
+section > span {
+  vertical-align: middle;
+}
+
+section {
+  margin-bottom: 1em;
+}
+
+label span.ui-button-text {
+  font-family: Gudea, Arial, Sans !important;
+  font-size: 12px !important;
+  
+}
+
+section > header > h2 > span {
+  font-family: 'Short Stack';
+  font-weight: bold;
+  cursor: pointer;
+}

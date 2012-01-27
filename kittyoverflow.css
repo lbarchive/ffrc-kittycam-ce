@@ -134,6 +134,13 @@ article > header > h1 {
   height: 386px;
 }
 
+#btn-coc {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  font-size: 12px !important;
+}
+
 /**************
  * blog posts *
  **************/

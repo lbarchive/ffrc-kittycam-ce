@@ -2,13 +2,60 @@
 <html>
 <head>
 <script type="text/javascript">
+var kb_option = 'popup';
+
+function kb_load() {
+  kb_option = localStorage['kb-option'] || 'popup';
+}
+
+function kb_open_page() {
+  switch (kb_option) {
+    case 'kittyoverflow':
+      chrome.tabs.create({url: 'https://github.com/livibetter/ffrc-kittycam-ce/kittyoverflow.html'});
+      break;
+    case 'ustream':
+      chrome.tabs.create({url: 'http://www.ustream.tv/ffrc'});
+      break;
+    default:
+      // TODO
+      return;
+  }
+}
+
+function update_kb_option() {
+  kb_load();
+  switch (kb_option) {
+    case 'popup':
+      //chrome.browserAction.setPopup({popup: chrome.extension.getURL('kittycam.html')});
+      chrome.browserAction.setPopup({popup: 'kittycam.html'});
+      break;
+    case 'kittyoverflow':
+    case 'ustream':
+      // let kb_open_page() work
+      chrome.browserAction.setPopup({popup: ''});
+      break;
+    default:
+      // TODO
+      return;
+  }
+}
+
 function onload(){
-  // TODO set popup...
-	// Hook the Kitty Overflow page
 	chrome.browserAction.onClicked.addListener(function(tab) {
-		chrome.tabs.create({url: chrome.extension.getURL('dashboard.html')});
+    kb_open_page();
 		});
-	}
+  chrome.extension.onRequest.addListener(function(request, sender, callback){
+    switch (request.name) {
+      case 'update_kb_option':
+        update_kb_option();
+        break;
+      default:
+        // TODO
+        return;
+    }
+  });
+  update_kb_option();
+}
 </script>
 </head>
 <body onload='onload()'>
