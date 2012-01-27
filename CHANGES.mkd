@@ -3,6 +3,8 @@ CHANGES
 
 ## Development
 
+## Version 0.2 (2012-01-27T15:07:38Z)
+
  * Add Kitty Overflow page
  * Add Options page
  * Allow to choose toolbar button action
