@@ -60,20 +60,56 @@ function refresh_blog_posts() {
   });
 }
 
-function refresh_flickr_photos(target, flickr_id, limit) {
-  var API_URL = 'http://api.flickr.com/services/feeds/photos_public.gne?id=' +
-                flickr_id + '&lang=en-us&format=json&jsoncallback=?';
+function refresh_photos(target, params, limit) {
+  var API_URL;
+  switch (params.source) {
+    case 'flickr':
+      API_URL = 'http://api.flickr.com/services/feeds/photos_public.gne?id=' +
+                 params.id + '&lang=en-us&format=json&jsoncallback=?';
+      break;
+    case 'picasa':
+      API_URL = 'https://picasaweb.google.com/data/feed/api/user/' + params.id + '?kind=photo' +
+                '&alt=json-in-script&callback=?' +
+                "&fields=author(name),entry(title,published,link[@rel='alternate'],media:group(media:thumbnail(@url)))";
+      if (!limit)
+        API_URL += '&max-results=' + limit;
+      break;
+    default:
+      return;
+  }
+
   $.getJSON(API_URL, function(data){
-    $.each(limit !== undefined ? data.items.slice(0, limit) : data.items, function(idx, photo) {
+    var photos = data.items || data.feed.entry;
+    $.each(limit !== undefined ? photos.slice(0, limit) : photos, function(idx, photo) {
       var $article = $('<article/>');
-      var published = new Date(photo.published);
+      var published = new Date(photo.published || photo.published.$t);
       $article.get(0).published = published;
-      $article.get(0).description = photo.description;
-      var author = $article.get(0).author = photo.author.replace(/.*\(|\)/g, '');
-      var title = photo.title || '(Untitled)';
+      var author, title, link, description, img_src;
+      switch (params.source) {
+        case 'flickr':
+          description = photo.description;
+          author = photo.author.replace(/.*\(|\)/g, '');
+          title = photo.title || '(Untitled)';
+          link = photo.link;
+          img_src = photo.media.m.replace(/_m\.jpg$/, '_s.jpg');
+          break;
+        case 'picasa':
+          author = data.feed.author[0].name.$t;
+          title = photo.title.$t;
+          link = photo.link[0].href;
+          img_src = photo.media$group.media$thumbnail[1].url;
+          var pop_img = photo.media$group.media$thumbnail[2];
+          description = '<p><a></a></p><p><a href="' + link +'">' +
+                        '<img src="' + pop_img.url+ '" width="' +
+                        pop_img.width+ '" height="' + pop_img.height + '"/></a></p>';
+          break;
+      }
+      $article.get(0).author = author;
+      $article.get(0).description = description;
       $article.attr('title', title + ' by ' + author);
-      var $thumb = $('<a/>').attr('href', photo.link);
-      var $image = $('<img/>').attr('src', photo.media.m.replace(/_m\.jpg$/, '_s.jpg'));
+      var $thumb = $('<a/>').attr('href', link);
+      var $image = $('<img/>').attr('src', img_src);
+      // FIXME keep aspect ratio for source = picasa
       $image.appendTo($thumb);
       $thumb.appendTo($article);
       $article
@@ -383,7 +419,7 @@ function init_page() {
                 .get(0).link = 'http://www.fofrescue.org/?page_id=671';
   update_time();
   refresh_blog_posts();
-  refresh_flickr_photos('#flickr-photos', FFRC_FLICKR_ID);
+  refresh_photos('#flickr-photos', FFRC_FLICKR_ID);
   function refresh_cammers_videos() {
     var cammers_youtube_ids = [
         'gossamer520',
@@ -405,13 +441,14 @@ function init_page() {
   refresh_cammers_videos();
   function refresh_cammers_photos() {
     var cammers_flickr_ids = [
-        ['47636090@N06', 'janak2'],
-        ['73221929@N03', 'luvmy8cats'],
-        ['65784570@N04', 'PJpanda']
+        [{source: 'flickr', id: '47636090@N06'}, 'janak2'],
+        [{source: 'flickr', id: '73221929@N03'}, 'luvmy8cats'],
+        [{source: 'flickr', id: '65784570@N04'}, 'PJpanda'],
+        [{source: 'picasa', id: 'ragsross'}    , 'ragsross']
         ]
     $('#cammers-flickr footer').empty();
     $.each(cammers_flickr_ids, function(idx, flickr_id){
-      refresh_flickr_photos('#cammers-flickr-photos', flickr_id[0], 10);
+      refresh_photos('#cammers-flickr-photos', flickr_id[0], 12);
       $('<a/>').text(flickr_id[1])
                .attr('href', 'http://www.flickr.com/photos/' + flickr_id[0])
                .appendTo($('#cammers-flickr footer'))

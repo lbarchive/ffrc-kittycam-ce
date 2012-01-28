@@ -3,6 +3,8 @@ CHANGES
 
 ## Development
 
+ * Add Picasa photo source
+
 ## Version 0.2 (2012-01-27T15:07:38Z)
 
  * Add Kitty Overflow page

@@ -288,4 +288,10 @@ article > header > h1 {
   margin: 0;
   padding: 3px 2px 2px 3px;
   overflow: hidden;
+  text-align: center;
+}
+
+#cammers-flickr-photos article a img{
+  width: 75px;
+  height: 75px;
 }
