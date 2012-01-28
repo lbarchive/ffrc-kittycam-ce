@@ -224,6 +224,14 @@ article > header > h1 {
     );
 }
 
+#blog-posts article .fadeout {
+  -webkit-transition: background 250ms ;
+  -moz-transition: background 250ms ;
+  -o-transition: background 250ms ;
+  transition: background 250ms ;
+  }
+
+
 /*****************
  * flickr photos *
  *****************/
@@ -246,7 +254,7 @@ article > header > h1 {
  * cammers videos *
  ******************/
 
-#cammers-youtube footer {
+#cammers-videos-section footer {
   font-size: 1.25em;
   text-align: center;
 }
@@ -272,16 +280,20 @@ article > header > h1 {
   transition: background 250ms ;
   }
 
+#cammers-videos article img.pb {
+  height: 90px;
+}
+
 /******************
  * cammers photos *
  ******************/
 
-#cammers-flickr footer {
+#cammers-photos-section footer {
   font-size: 1.25em;
   text-align: center;
 }
 
-#cammers-flickr-photos article {
+#cammers-photos article {
   float: left;
   width: 75px;
   height: 75px;
@@ -291,7 +303,7 @@ article > header > h1 {
   text-align: center;
 }
 
-#cammers-flickr-photos article a img{
+#cammers-photos article a img{
   width: 75px;
   height: 75px;
 }

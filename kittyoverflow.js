@@ -74,15 +74,31 @@ function refresh_photos(target, params, limit) {
       if (!limit)
         API_URL += '&max-results=' + limit;
       break;
+    case 'pb':
+      var QUERY= "select * from rss where url='" + params.id +
+                "' and content.medium='image'";
+      if (!limit)
+        QUERY += ' limit ' + limit;
+      API_URL = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURI(QUERY) +
+                '&format=json&callback=?';
+      break;
     default:
       return;
   }
 
   $.getJSON(API_URL, function(data){
-    var photos = data.items || data.feed.entry;
+    var photos = data.items /* Flickr */
+             || (data.feed && data.feed.entry) /* Picasa */
+             || (data.query && data.query.results.item) /* Photobucket via YQL */
+             ;
+
     $.each(limit !== undefined ? photos.slice(0, limit) : photos, function(idx, photo) {
       var $article = $('<article/>');
-      var published = new Date(photo.published || photo.published.$t);
+      var published = new Date(
+                     (photo.published && photo.published.$t) /* Picasa */
+                   || photo.published /* Flickr */
+                   || photo.pubDate /* Photobucket */
+                   );
       $article.get(0).published = published;
       var author, title, link, description, img_src;
       switch (params.source) {
@@ -102,6 +118,14 @@ function refresh_photos(target, params, limit) {
           description = '<p><a></a></p><p><a href="' + link +'">' +
                         '<img src="' + pop_img.url+ '" width="' +
                         pop_img.width+ '" height="' + pop_img.height + '"/></a></p>';
+          break;
+        case 'pb':
+          author = photo.creator;
+          title = photo.title;
+          link = photo.link;
+          img_src = photo.content.thumbnail.url;
+          description = '<p><a></a></p><p><a href="' + link +'">' +
+                        '<img src="' + img_src + '"/></a></p>';
           break;
       }
       $article.get(0).author = author;
@@ -133,17 +157,64 @@ function refresh_photos(target, params, limit) {
   });
 }
 
-function refresh_videos(username) {
-  var API_URL = "https://gdata.youtube.com/feeds/api/users/" + username + "/uploads?alt=json-in-script&orderby=published&max-results=6&fields=entry(title,author,published,link[@rel='alternate'],media:group(media:thumbnail(@url)))&callback=?";
+function refresh_videos(params, limit) {
+  var API_URL;
+  limit = limit || 3;
+  switch (params.source) {
+    case 'youtube':
+      API_URL = "https://gdata.youtube.com/feeds/api/users/" + params.id + "/uploads?alt=json-in-script&orderby=published" +
+                "&max-results=" + limit +
+                "&fields=entry(title,author,published,link[@rel='alternate'],media:group(media:thumbnail(@url)))&callback=?";
+      break;
+    case 'pb':
+      var QUERY= "select * from rss where url='" + params.id +
+                "' and content.medium='video' limit " + limit;
+      API_URL = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURI(QUERY) +
+                '&format=json&callback=?';
+      break;
+    default:
+      return;
+  }
+
+
   $.getJSON(API_URL, function(data){
-    $.each(data.feed.entry, function(idx, video) {
+    var videos = (data.feed && data.feed.entry) /* YouTube */
+              || (data.query && data.query.results.item) /* Photobucket via YQL */
+              ;
+
+    $.each(videos, function(idx, video) {
       var $article = $('<article/>');
-      var published = new Date(video.published.$t);
+      var published = new Date(
+                     (video.published && video.published.$t) /* YouTube */
+                   || video.pubDate /* Photobucket */
+                   );
       $article.get(0).published = published;
-      $article.get(0).link = video.link[0].href;
+      var title, link;
+      var $thumb = $('<a/>');
+      switch (params.source) {
+        case 'youtube':
+          author = video.author[0].name.$t;
+          title = video.title.$t;
+          link = video.link[0].href;
+          var $image;
+          for (var i=1; i<=2; i++) {
+            $image = $('<img/>').attr('src', video.media$group.media$thumbnail[i].url);
+            $image.appendTo($thumb);
+          }
+          break;
+        case 'pb':
+          author = video.creator;
+          title = video.title;
+          link = video.link;
+          img_src = video.content.thumbnail.url;
+          $image = $('<img/>').attr('src', img_src).addClass('pb');
+          $image.appendTo($thumb);
+          break;
+      }
+      $article.get(0).link = link;
       $article.click(open_ele_link);
-      var title = (video.title.$t || '(Untitled)').replace(/^FFRC /, '');
-      $article.attr('title', title + ' by ' + video.author[0].name.$t);
+      title = (title || '(Untitled)').replace(/^FFRC /, '');
+      $article.attr('title', title + ' by ' + author);
       var $title = $('<header/>')
           .append(
             $('<h1/>')
@@ -151,13 +222,8 @@ function refresh_videos(username) {
               .text(title)
             );
       $title.appendTo($article);
-      var $thumb = $('<a/>').attr('href', video.link[0].href);
-      var $image;
-      for (var i=1; i<=2; i++) {
-        $image = $('<img/>').attr('src', video.media$group.media$thumbnail[i].url);
-        $image.appendTo($thumb);
-      }
-      $thumb.appendTo($article);
+      $thumb.attr('href', link)
+            .appendTo($article);
       $article.hide();
       // find place to insert
       var added = false;
@@ -275,7 +341,7 @@ function show_img_m() {
       })
       ;
   var $img = $pop.find('img');
-  $img.attr('alt', $img.attr('alt') + ' by ' + $article.get(0).author)
+  $img.attr('alt', $article.attr('title'))
       .hide()
       .load(function(){
         $(this).fadeIn('fast');
@@ -421,42 +487,84 @@ function init_page() {
   refresh_blog_posts();
   refresh_photos('#flickr-photos', {source: 'flickr', id: FFRC_FLICKR_ID});
   function refresh_cammers_videos() {
-    var cammers_youtube_ids = [
-        'gossamer520',
-        'livibetter'
+    var cammers = [
+        {
+          source: 'youtube',
+          id:     'gossamer520',
+          name:   'gossamer520',
+          link:   'http://www.youtube.com/user/gossamer520'
+        },
+        {
+          source: 'youtube',
+          id:     'livibetter',
+          name:   'livibetter',
+          link:   'http://www.youtube.com/user/livibetter'
+        },
+        {
+          source: 'pb',
+          id:     'http://feed911.photobucket.com/albums/ac316/egun1/FFRC%2024-7%20Kitties/feed.rss',
+          name:   'Windy60',
+          link:   'http://s911.photobucket.com/albums/ac316/egun1/FFRC%2024-7%20Kitties/'
+        }
         ]
-    $('#cammers-youtube footer').empty();
-    $.each(cammers_youtube_ids, function(idx, youtube_id){
-      refresh_videos(youtube_id);
-      $('<a/>').text(youtube_id)
-               .attr('href', 'http://www.youtube.com/user/' + youtube_id)
-               .appendTo($('#cammers-youtube footer'))
-      if (idx < cammers_youtube_ids.length - 1)
+    $('#cammers-videos-section footer').empty();
+    $.each(cammers, function(idx, cammer){
+      refresh_videos(cammer);
+      $('<a/>').text(cammer.name)
+               .attr('href', cammer.link)
+               .appendTo($('#cammers-videos-section footer'))
+      if (idx < cammers.length - 1)
         $('<span/>').append(' ')
                     .append($('<img/>').attr('src', 'icon16.png'))
                     .append(' ')
-                    .appendTo($('#cammers-youtube footer'));
+                    .appendTo($('#cammers-videos-section footer'));
     });
   }
   refresh_cammers_videos();
   function refresh_cammers_photos() {
-    var cammers_flickr_ids = [
-        [{source: 'flickr', id: '47636090@N06'}, 'janak2'],
-        [{source: 'flickr', id: '73221929@N03'}, 'luvmy8cats'],
-        [{source: 'flickr', id: '65784570@N04'}, 'PJpanda'],
-        [{source: 'picasa', id: 'ragsross'}    , 'ragsross']
+    var cammers = [
+        {
+          source: 'flickr',
+          id:     '47636090@N06',
+          name:   'janak2',
+          link:   'http://www.flickr.com/photos/47636090@N06'
+        },
+        {
+          source: 'flickr',
+          id:     '73221929@N03',
+          name:   'luvmy8cats',
+          link:   'http://www.flickr.com/photos/73221929@N03'
+        },
+        {
+          source: 'flickr',
+          id:     '65784570@N04',
+          name:   'PJpanda',
+          link:   'http://www.flickr.com/photos/65784570@N04'
+        },
+        {
+          source: 'picasa',
+          id:     'ragsross',
+          name:   'ragsross',
+          link:   'https://picasaweb.google.com/ragsross'
+        },
+        {
+          source: 'pb',
+          id:     'http://feed911.photobucket.com/albums/ac316/egun1/FFRC%2024-7%20Kitties/feed.rss',
+          name:   'Windy60',
+          link:   'http://s911.photobucket.com/albums/ac316/egun1/FFRC%2024-7%20Kitties/'
+        }
         ]
-    $('#cammers-flickr footer').empty();
-    $.each(cammers_flickr_ids, function(idx, flickr_id){
-      refresh_photos('#cammers-flickr-photos', flickr_id[0], 12);
-      $('<a/>').text(flickr_id[1])
-               .attr('href', 'http://www.flickr.com/photos/' + flickr_id[0])
-               .appendTo($('#cammers-flickr footer'))
-      if (idx < cammers_flickr_ids.length - 1)
+    $('#cammers-photos-section footer').empty();
+    $.each(cammers, function(idx, cammer){
+      refresh_photos('#cammers-photos', cammer, 6);
+      $('<a/>').text(cammer.name)
+               .attr('href', cammer.link)
+               .appendTo($('#cammers-photos-section footer'))
+      if (idx < cammers.length - 1)
         $('<span/>').append(' ')
                     .append($('<img/>').attr('src', 'icon16.png'))
                     .append(' ')
-                    .appendTo($('#cammers-flickr footer'));
+                    .appendTo($('#cammers-photos-section footer'));
     });
   }
   refresh_cammers_photos();
@@ -475,22 +583,22 @@ function init_page() {
     .bind('contextmenu', function(evt){
       evt.preventDefault();
       empty_and_refresh('#flickr-photos', function(){
-        refresh_flickr_photos('#flickr-photos', FFRC_FLICKR_ID);   
+        refresh_photos('#flickr-photos', {source: 'flickr', id: FFRC_FLICKR_ID});
       })
       return false;
     })
     ;
-  $('#cammers-youtube > header > h2 > span')
+  $('#cammers-videos-section > header > h2 > span')
     .bind('contextmenu', function(evt){
       evt.preventDefault();
       empty_and_refresh('#cammers-videos', refresh_cammers_videos)
       return false;
     })
     ;
-  $('#cammers-flickr > header > h2 > span')
+  $('#cammers-photos-section > header > h2 > span')
     .bind('contextmenu', function(evt){
       evt.preventDefault();
-      empty_and_refresh('#cammers-flickr-photos', refresh_cammers_photos)
+      empty_and_refresh('#cammers-photos', refresh_cammers_photos)
       return false;
     })
     ;
