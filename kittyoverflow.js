@@ -419,7 +419,7 @@ function init_page() {
                 .get(0).link = 'http://www.fofrescue.org/?page_id=671';
   update_time();
   refresh_blog_posts();
-  refresh_photos('#flickr-photos', FFRC_FLICKR_ID);
+  refresh_photos('#flickr-photos', {source: 'flickr', id: FFRC_FLICKR_ID});
   function refresh_cammers_videos() {
     var cammers_youtube_ids = [
         'gossamer520',
