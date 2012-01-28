@@ -4,6 +4,7 @@ CHANGES
 ## Development
 
  * Add Picasa photo source
+ * Add Photobucket video and image sources
 
 ## Version 0.2 (2012-01-27T15:07:38Z)
 
