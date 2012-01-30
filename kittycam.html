@@ -42,13 +42,39 @@ function update_time() {
 
   setTimeout(update_time, 1000);
 }
+
+function goto_website() {
+  _gaq.push(['_trackEvent', 'kc_redirect', 'website']);
+  window.open('http://fofrescue.org/');
+}
+
+function goto_ustream() {
+  _gaq.push(['_trackEvent', 'kc_redirect', 'ustream']);
+   window.open('http://www.ustream.tv/ffrc');
+}
+
+function goto_ko() {
+  _gaq.push(['_trackEvent', 'kc_redirect', 'kittyoverflow']);
+  window.open('http://livibetter.github.com//ffrc-kittycam-ce/kittyoverflow.html');
+  return false;
+}
+// Google Analytics
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-28534606-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = 'https://ssl.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
 </script>
 </head>
 <body onload="update_time()">
 <div><iframe src="http://www.ustream.tv/embed/2298576?autoplay=true" width="640" height="386" scrolling="no" frameborder="0" style="border: 0px none transparent;"></iframe></div>
 <div>
   <p>
-    Friends of Felines&rsquo; Rescue Center is a lovely place, not only for kitties but also for cat lovers. Please do not hesitate to join the chat on <a href="#" onclick="javascript:window.open('http://www.ustream.tv/ffrc');return false">Ustream.tv</a> and you can find all information about the center on <a href="#" onclick="javascript:window.open('http://fofrescue.org/'); return false">official website</a>.
+    Friends of Felines&rsquo; Rescue Center is a lovely place, not only for kitties but also for cat lovers. Please do not hesitate to join the chat on <a href="#" onclick="javascript:goto_ustream();">Ustream.tv</a> and you can find all information about the center on <a href="#" onclick="javascript:goto_website();">official website</a>.
   </p>
   <p>
     Current time at the center: <span id="time-est">HH:MM AM</span> (EST) or <span id="time-edt">HH:MM AM</span> in summer (EDT).
@@ -58,9 +84,9 @@ function update_time() {
   </p>
 </div>
 <div>
-  <button onclick="javascript:window.open('http://livibetter.github.com//ffrc-kittycam-ce/kittyoverflow.html')">Have a Kitty Overflow</button>
-  <button onclick="javascript:window.open('http://www.ustream.tv/ffrc')">Go to Ustream.tv and Join Cat Lovers in Chat</button>
-  <button onclick="javascript:window.open('http://fofrescue.org/')">Go to Official Website</button>
+  <button onclick="javascript:goto_ko();">Have a Kitty Overflow</button>
+  <button onclick="javascript:goto_ustream();">Go to Ustream.tv and Join Cat Lovers in Chat</button>
+  <button onclick="javascript:goto_website();">Go to Official Website</button>
 </div>
 </body>
 </html>

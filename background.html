@@ -11,9 +11,11 @@ function kb_load() {
 function kb_open_page() {
   switch (kb_option) {
     case 'kittyoverflow':
+      _gaq.push(['_trackEvent', 'kb_redirect', 'kittyoverflow']);
       chrome.tabs.create({url: 'http://livibetter.github.com//ffrc-kittycam-ce/kittyoverflow.html'});
       break;
     case 'ustream':
+      _gaq.push(['_trackEvent', 'kb_redirect', 'ustream']);
       chrome.tabs.create({url: 'http://www.ustream.tv/ffrc'});
       break;
     default:
@@ -56,6 +58,18 @@ function onload(){
   });
   update_kb_option();
 }
+
+// Google Analytics
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-28534606-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = 'https://ssl.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
 </script>
 </head>
 <body onload='onload()'>

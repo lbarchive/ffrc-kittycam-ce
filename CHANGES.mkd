@@ -3,8 +3,11 @@ CHANGES
 
 ## Development
 
+## Version 0.3 (2012-01-30T00:57:37Z)
+
  * Add Picasa photo source
  * Add Photobucket video and image sources
+ * Add Google Analytics for statistics
 
 ## Version 0.2 (2012-01-27T15:07:38Z)
 
