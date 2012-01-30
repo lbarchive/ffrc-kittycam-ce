@@ -24,6 +24,13 @@ function update_time() {
   setTimeout(update_time, 1000);
 }
 
+// For IE8 and earlier version.
+if (!Date.now) {
+  Date.now = function() {
+    return new Date().valueOf();
+  }
+}
+
 /****************************
  * Data retrieval functions *
  ****************************/
