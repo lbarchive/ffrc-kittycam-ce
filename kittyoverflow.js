@@ -31,6 +31,20 @@ if (!Date.now) {
   }
 }
 
+// Modified from source:
+// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date#Example:_ISO_8601_formatted_dates
+if (!Date.prototype.toISOString) {
+  Date.prototype.toISOString = function(d) { 
+    function pad(n){return n<10 ? '0'+n : n}  
+    return d.getUTCFullYear()+'-'  
+        + pad(d.getUTCMonth()+1)+'-'  
+        + pad(d.getUTCDate())+'T'  
+        + pad(d.getUTCHours())+':'  
+        + pad(d.getUTCMinutes())+':'  
+        + pad(d.getUTCSeconds())+'Z'  
+    }
+}
+
 /****************************
  * Data retrieval functions *
  ****************************/
@@ -267,7 +281,7 @@ function VotingTimerView(target, control, model) {
       = this.$target
       = $('<div/>').attr('id', 'voting');
 
-  var $time = $('<time/>').attr('datetime', new Date(model.last_voted))
+  var $time = $('<time/>').attr('datetime', new Date(model.last_voted).toISOString())
                           .text('You have not voted yet!')
                           .attr('title', '')
                           .appendTo($target);
@@ -291,7 +305,7 @@ function VotingTimerView(target, control, model) {
                             })
                             .appendTo($target);
   $(model).bind('last_voted_update', function(){
-    var date =  new Date(model.last_voted)
+    var date =  new Date(model.last_voted).toISOString()
     $time.attr('datetime', date);
     if (!$time.data('timeago'))
       $time.timeago();
