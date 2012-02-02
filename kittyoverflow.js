@@ -88,6 +88,12 @@ function refresh_photos(target, params, limit) {
       API_URL = 'http://api.flickr.com/services/feeds/photos_public.gne?id=' +
                  params.id + '&lang=en-us&format=json&jsoncallback=?';
       break;
+    case 'flickrset':
+      API_URL = 'http://api.flickr.com/services/feeds/photoset.gne?' +
+                '&set=' + params.id.set +
+                '&nsid=' + params.id.nsid +
+                '&lang=en-us&format=json&jsoncallback=?';
+      break;
     case 'picasa':
       API_URL = 'https://picasaweb.google.com/data/feed/api/user/' + params.id + '?kind=photo' +
                 '&alt=json-in-script&callback=?' +
@@ -124,6 +130,7 @@ function refresh_photos(target, params, limit) {
       var author, title, link, description, img_src;
       switch (params.source) {
         case 'flickr':
+        case 'flickrset':
           description = photo.description;
           author = photo.author.replace(/.*\(|\)/g, '');
           title = photo.title || '(Untitled)';
@@ -545,8 +552,11 @@ function init_page() {
   function refresh_cammers_photos() {
     var cammers = [
         {
-          source: 'flickr',
-          id:     '47636090@N06',
+          source: 'flickrset',
+          id: {
+            set:  '72157629006774123',
+            nsid: '47636090@N06'
+          },
           name:   'janak2',
           link:   'http://www.flickr.com/photos/47636090@N06'
         },

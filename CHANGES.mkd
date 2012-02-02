@@ -3,6 +3,8 @@ CHANGES
 
 ## Development
 
+ * Add Flickr Set photo source
+
 ## Version 0.3 (2012-01-30T00:57:37Z)
 
  * Add Picasa photo source
