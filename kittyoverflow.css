@@ -254,6 +254,36 @@ article > header > h1 {
   overflow: hidden;
 }
 
+
+/******************
+ * YouTube videos *
+ ******************/
+
+#youtube-videos article {
+  float: left;
+  width: 310px;
+  padding: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: center;
+}
+
+#youtube-videos article:hover {
+  background-color: #F2CF87;
+}
+
+#youtube-videos article {
+  -webkit-transition: background 250ms ;
+  -moz-transition: background 250ms ;
+  -o-transition: background 250ms ;
+  transition: background 250ms ;
+  }
+
+#youtube-videos article img.pb {
+  height: 90px;
+}
+
 /******************
  * cammers videos *
  ******************/

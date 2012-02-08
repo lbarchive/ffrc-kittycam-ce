@@ -185,7 +185,7 @@ function refresh_photos(target, params, limit) {
   });
 }
 
-function refresh_videos(params, limit) {
+function refresh_videos(target, params, limit) {
   var API_URL;
   limit = limit || 3;
   switch (params.source) {
@@ -255,7 +255,7 @@ function refresh_videos(params, limit) {
       $article.hide();
       // find place to insert
       var added = false;
-      $('#cammers-videos article').each(function(idx, ele){
+      $(target + ' article').each(function(idx, ele){
         if (published > this.published) {
           $(this).before($article);
           added = true;
@@ -263,7 +263,7 @@ function refresh_videos(params, limit) {
         }
       });
       if (!added)
-        $article.appendTo($('#cammers-videos'));
+        $article.appendTo($(target));
       $article.fadeIn();
     })
   });
@@ -514,6 +514,18 @@ function init_page() {
   update_time();
   refresh_blog_posts();
   refresh_photos('#flickr-photos', {source: 'flickr', id: FFRC_FLICKR_ID});
+
+  function refresh_ffrc_videos() {
+    var ffrc_video = {
+        source: 'youtube',
+        id:     'FOFRescueCenter',
+        name:   'FOFRescueCenter',
+        link:   'http://www.youtube.com/user/FOFRescueCenter'
+        };
+    refresh_videos('#youtube-videos', ffrc_video);
+  }
+  refresh_ffrc_videos();
+
   function refresh_cammers_videos() {
     var cammers = [
         {
@@ -529,6 +541,12 @@ function init_page() {
           link:   'http://www.youtube.com/user/livibetter'
         },
         {
+          source: 'youtube',
+          id:     'dietslice',
+          name:   'LoveMyPetz',
+          link:   'http://www.youtube.com/user/dietslice'
+        },
+        {
           source: 'pb',
           id:     'http://feed911.photobucket.com/albums/ac316/egun1/FFRC%2024-7%20Kitties/feed.rss',
           name:   'Windy60',
@@ -537,7 +555,7 @@ function init_page() {
         ]
     $('#cammers-videos-section footer').empty();
     $.each(cammers, function(idx, cammer){
-      refresh_videos(cammer);
+      refresh_videos('#cammers-videos', cammer);
       $('<a/>').text(cammer.name)
                .attr('href', cammer.link)
                .appendTo($('#cammers-videos-section footer'))
@@ -615,6 +633,16 @@ function init_page() {
       evt.preventDefault();
       empty_and_refresh('#flickr-photos', function(){
         refresh_photos('#flickr-photos', {source: 'flickr', id: FFRC_FLICKR_ID});
+      })
+      return false;
+    })
+    ;
+  $('#youtube > header > h2 > span')
+    .click(function(){window.open('http://www.youtube.com/user/FOFRescueCenter')})
+    .bind('contextmenu', function(evt){
+      evt.preventDefault();
+      empty_and_refresh('#youtube-videos', function(){
+        refresh_ffrc_videos();
       })
       return false;
     })
