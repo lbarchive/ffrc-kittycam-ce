@@ -232,7 +232,7 @@ function refresh_videos(target, params, limit) {
           break;
         case 'pb':
           author = video.creator;
-          title = video.title;
+          title = video.title.replace(/&amp;/g, '&');
           link = video.link;
           img_src = video.content.thumbnail.url;
           $image = $('<img/>').attr('src', img_src).addClass('pb');
@@ -402,7 +402,8 @@ function init_page() {
     ['Blog'     , 'http://friendsoffelines.blogspot.com/'],
     ['Facebook' , 'http://www.facebook.com/pages/Friends-of-Felines-Rescue-Center-Earth-Angels-Low-Cost-SpayNeuter-Clinic/288063788071'],
     ['Petfinder', 'http://www.petfinder.com/pet-search?shelterid=OH572'],
-    ['Flickr'   , 'http://www.flickr.com/photos/fofrescue/']
+    ['Flickr'   , 'http://www.flickr.com/photos/fofrescue/'],
+    ['YouTube'  , 'http://www.youtube.com/user/FOFRescueCenter']
   ]
   var $links = $('#links');
   $.each(ffrc_links, function(idx, link){
