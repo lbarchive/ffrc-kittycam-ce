@@ -127,15 +127,18 @@ article > header > h1 {
   vertical-align: top;
   padding: 5px;
 }
-
+/*
+Embed height   = video height + 26px
+Chat box width = (980 - 10 * 2) - video width
+*/
 #utv {
-  width: 640px;
-  height: 386px;
+  width: 512px;
+  height: 410px;
 }
 
 #utv-chat {
-  width: 320px;
-  height: 386px;
+  width: 468px;
+  height: 410px;
 }
 
 #btn-coc {
