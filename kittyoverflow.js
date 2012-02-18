@@ -403,7 +403,9 @@ function init_page() {
     ['Facebook' , 'http://www.facebook.com/pages/Friends-of-Felines-Rescue-Center-Earth-Angels-Low-Cost-SpayNeuter-Clinic/288063788071'],
     ['Petfinder', 'http://www.petfinder.com/pet-search?shelterid=OH572'],
     ['Flickr'   , 'http://www.flickr.com/photos/fofrescue/'],
-    ['YouTube'  , 'http://www.youtube.com/user/FOFRescueCenter']
+    ['YouTube'  , 'http://www.youtube.com/user/FOFRescueCenter'],
+    ['Code of Conduct',
+                  'http://www.fofrescue.org/?page_id=671']
   ]
   var $links = $('#links');
   $.each(ffrc_links, function(idx, link){
@@ -417,101 +419,15 @@ function init_page() {
   $.timeago.settings.refreshMillis = 1000;
   $.timeago.settings.strings.prefixAgo = 'You have voted';
   new VotingTimer('#controls');
-  $("#btn-utv-v")
-    .attr('title', 'Change causes Flash reloads')
-    .button({
-      icons: {primary: 'ui-icon-grip-solid-vertical'},
-      text: false
-      })
-    .click(function(){
-      if (utv_layout == 'v')
-        return;
-      var $utv = $('#utv');
-      var $utv_chat = $('#utv-chat');
-      var h = Math.max($utv.height(), $utv_chat.height());
-      var $utv_cam_chat = $('#utv-cam-chat');
-      var $table = $('<table><tbody><tr><td></td><td></td></tr></tbody></table>');
-      $table.appendTo($utv_cam_chat);
-      $utv
-        .appendTo($table.find('td:first'))
-        .height(h);
-      $('#utv440973').get(0).height   = h  + 'px';
-      $('#utv440973-e').get(0).height = h  + 'px';
-      $utv_chat
-        .appendTo($table.find('td:last'))
-        .height(h);
-      $('#utv-chat-iframe').get(0).height = h  + 'px';
-      $('table:first', $utv_cam_chat).remove();
-      utv_layout = 'v';
-    })
-    ;
-  $("#btn-utv-h")
-    .attr('title', 'Change causes Flash reloads')
-    .button({
-      icons: {primary: 'ui-icon-grip-solid-horizontal'},
-      text: false
-      })
-    .click(function(){
-      if (utv_layout == 'h')
-        return;
-      var $utv = $('#utv');
-      var $utv_chat = $('#utv-chat');
-      var w = Math.max($utv.width(), $utv_chat.width());
-      var $utv_cam_chat = $('#utv-cam-chat');
-      var $table = $('<table><tbody><tr><td></td></tr><tr><td></td></tr></tbody></table>');
-      $table.appendTo($utv_cam_chat);
-      $utv
-        .appendTo($table.find('td:first'))
-        .width(w);
-      $('#utv440973').get(0).width  = w  + 'px';
-      $('#utv440973-e').get(0).width  = w  + 'px';
-      $utv_chat
-        .appendTo($table.find('td:last'))
-        .width(w);
-      $('#utv-chat-iframe').get(0).width  = w  + 'px';
-      $('table:first', $utv_cam_chat).remove();
-      utv_layout = 'h';
-    })
-    ;
-  $('#utv').resizable({
-    resize: function(){
-      $('#utv440973').get(0).width  = $('#utv').width()  + 'px';
-      $('#utv440973').get(0).height = $('#utv').height() + 'px';
-      $('#utv440973-e').get(0).width  = $('#utv').width()  + 'px';
-      $('#utv440973-e').get(0).height = $('#utv').height() + 'px';
-
-      if (utv_layout == 'v') {
-        $('#utv-chat').height($('#utv').height());
-        $('#utv-chat-iframe').get(0).height = $('#utv').height() + 'px';
-      } else {
-        $('#utv-chat').width($('#utv').width());
-        $('#utv-chat-iframe').get(0).width  = $('#utv').width()  + 'px';
-      }
-    }
+  $('#utv-cam-chat')
+    .splitter({
+      outline: true,
+      sizeLeft: 512})
+    .resizable();
+  $('#utv-cam-chat').resize(function(){
+    $('#utv440973-e').get(0).width  = $('#utv').width();
+    $('#utv440973-e').get(0).height = $('#utv').height();
   });
-  $('#utv-chat').resizable({
-    resize: function(){
-      $('#utv-chat-iframe').get(0).width  = $('#utv-chat').width()  + 'px';
-      $('#utv-chat-iframe').get(0).height = $('#utv-chat').height() + 'px';
-
-      if (utv_layout == 'v') {
-        $('#utv').height($('#utv-chat').height());
-        $('#utv440973').get(0).height   = $('#utv-chat').height()  + 'px';
-        $('#utv440973-e').get(0).height = $('#utv-chat').height() + 'px';
-      } else {
-        $('#utv').width($('#utv-chat').width());
-        $('#utv440973').get(0).width   = $('#utv-chat').width() + 'px';
-        $('#utv440973-e').get(0).width = $('#utv-chat').width() + 'px';
-      }
-    }
-  });
-  // chat code of conduct button
-  $('<button/>').attr('id', 'btn-coc')
-                .text('Code of Conduct')
-                .button()
-                .click(open_ele_link)
-                .appendTo($('#utv-chat'))
-                .get(0).link = 'http://www.fofrescue.org/?page_id=671';
   update_time();
   refresh_blog_posts();
   refresh_photos('#flickr-photos', {source: 'flickr', id: FFRC_FLICKR_ID});

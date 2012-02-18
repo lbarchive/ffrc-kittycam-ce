@@ -12,6 +12,7 @@
   <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/sunny/jquery-ui.css" rel="stylesheet" type="text/css"/>
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
   <script src="jquery.timeago.js"></script>
+  <script src="splitter.js"></script>
   <link href='kittyoverflow.css' rel='stylesheet' type='text/css'/>
   <script src='kittyoverflow.js'></script>
 </head>
@@ -26,7 +27,6 @@
 </header>
 
 <section id="controls">
-  Cam/Chat Layout: <button id="btn-utv-v">Vertical</button><button id="btn-utv-h">Horizontal</button>
   Time in Ohio: <span id='time-est'></span> (EST) <span id='time-edt'></span> (EDT)
 </section>
 </div>
@@ -73,26 +73,8 @@
 </div>
 
 <section id="utv-cam-chat">
-<!--
-Embed height   = video height + 26px
-Chat box width = (980 - 10 * 2) - video width
--->
-<table>
-<tbody>
-<tr>
-<td>
-  <div id="utv">
-    <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="512" height="410" id="utv440973"><param name="flashvars" value="autoplay=true&amp;brand=embed&amp;cid=2298576&amp;v3=1"/><param name="allowfullscreen" value="true"/><param name="allowscriptaccess" value="always"/><param name="movie" value="http://www.ustream.tv/flash/viewer.swf"/><param name="wmode" value="opaque"/><embed flashvars="autoplay=true&amp;brand=embed&amp;cid=2298576&amp;v3=1" width="512" height="410" allowfullscreen="true" allowscriptaccess="always" wmode="opaque" id="utv440973-e" name="utv_n_476580" src="http://www.ustream.tv/flash/viewer.swf" type="application/x-shockwave-flash" /></object>
-  </div>
-</td>
-<td>
-  <div id="utv-chat">
-    <iframe id="utv-chat-iframe" width="468" scrolling="no" height="410" frameborder="0" style="border: 0px none transparent;" src="http://www.ustream.tv/socialstream/2298576"></iframe>
-  </div>
-</td>
-</tr>
-</tbody>
-</table>
+  <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="512" height="410" id="utv"><param name="flashvars" value="autoplay=true&amp;brand=embed&amp;cid=2298576&amp;v3=1"/><param name="allowfullscreen" value="true"/><param name="allowscriptaccess" value="always"/><param name="movie" value="http://www.ustream.tv/flash/viewer.swf"/><param name="wmode" value="opaque"/><embed flashvars="autoplay=true&amp;brand=embed&amp;cid=2298576&amp;v3=1" width="512" height="410" allowfullscreen="true" allowscriptaccess="always" wmode="opaque" id="utv440973-e" name="utv_n_476580" src="http://www.ustream.tv/flash/viewer.swf" type="application/x-shockwave-flash" /></object>
+  <iframe id="utv-chat" width="468" scrolling="no" height="410" frameborder="0" style="border: 0px none transparent;" src="http://www.ustream.tv/socialstream/2298576"></iframe>
 </section>
 
 <div class="wrapper">
