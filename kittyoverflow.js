@@ -193,11 +193,13 @@ function refresh_videos(target, params, limit) {
       API_URL = "https://gdata.youtube.com/feeds/api/users/" + params.id + "/uploads?alt=json-in-script&orderby=published" +
                 "&max-results=" + limit +
                 "&fields=entry(title,author,published,link[@rel='alternate'],media:group(media:thumbnail(@url)))&callback=?";
+      if (params.q)
+        API_URL += '&q=' + encodeURIComponent(params.q);
       break;
     case 'pb':
       var QUERY= "select * from rss where url='" + params.id +
                 "' and content.medium='video' limit " + limit;
-      API_URL = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURI(QUERY) +
+      API_URL = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent(QUERY) +
                 '&format=json&callback=?';
       break;
     default:
@@ -453,12 +455,14 @@ function init_page() {
         },
         {
           source: 'youtube',
+          q:      'FFRC',
           id:     'livibetter',
           name:   'livibetter',
           link:   'http://www.youtube.com/user/livibetter'
         },
         {
           source: 'youtube',
+          q:      'FFRC',
           id:     'dietslice',
           name:   'LoveMyPetz',
           link:   'http://www.youtube.com/user/dietslice'
